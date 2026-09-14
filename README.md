@@ -23,9 +23,11 @@ For deployment, run collectstatic before starting/restarting your WSGI server.
 ```
 
 The custom `404.html` is rendered by Django's default 404 handler, with HTTP
-status 404. It uses local CSS and does not require Tailwind.
-Ordinary pages retain their existing Tailwind CDN dependency in `base.html`;
-their utility classes require access to `https://cdn.tailwindcss.com`.
+status 404. It extends `base.html` for shared navigation and loads its local
+`404.css` through `extra_css`. The shared base retains the Tailwind CDN;
+utility classes require access to `https://cdn.tailwindcss.com`.
+The home button uses the existing `feed` route. Using the nonexistent `home`
+route raises NoReverseMatch while rendering the error page and returns 500.
 WhiteNoise configuration follows the [official integration guide](https://whitenoise.readthedocs.io/en/stable/django.html).
 
 ## Scope of this checkout and verification

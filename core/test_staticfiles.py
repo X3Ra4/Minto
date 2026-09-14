@@ -4,6 +4,7 @@ from tempfile import TemporaryDirectory
 from urllib.parse import urljoin
 
 from django.core.management import call_command
+from django.contrib.auth import get_user_model
 from django.test import TestCase, override_settings
 
 
@@ -21,6 +22,21 @@ class StylesheetLinks(HTMLParser):
 
 @override_settings(DEBUG=False)
 class ProductionStylesTests(TestCase):
+    def test_404_uses_shared_layout_for_guest_and_signed_in_user(self):
+        self.client.raise_request_exception = False
+        user = get_user_model().objects.create_user(username='error-page-viewer')
+        for signed_in in (False, True):
+            if signed_in:
+                self.client.force_login(user)
+            for path in ('/profile/5235/', '/__minto_missing_91af6e__/'):
+                with self.subTest(signed_in=signed_in, path=path):
+                    response = self.client.get(path)
+                    self.assertEqual(response.status_code, 404)
+                    self.assertTemplateUsed(response, 'base.html')
+                    self.assertContains(response, '<main class="minto-main">', count=1, status_code=404)
+                    self.assertContains(response, 'href="/" class="error-button"', status_code=404)
+                    self.assertContains(response, 'Log Out' if signed_in else 'Sign In', status_code=404)
+
     def test_pages_load_collected_css_without_debug(self):
         # A fresh middleware chain must serve collected assets, not test-server
         # static handlers or the source directories used only in DEBUG mode.

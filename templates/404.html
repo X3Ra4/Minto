@@ -1,100 +1,34 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>404 — Page Not Found</title>
+{% block title %}404 — Page Not Found{% endblock %}
 
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/404.css' %}">
-</head>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/404.css' %}">
+{% endblock %}
 
-<body>
-
-<div class="minto-layout">
-
-    <!-- SIDEBAR -->
-    <aside class="minto-sidebar">
-
-        <div class="minto-logo">
-            Minto
-        </div>
-
-        <div class="minto-search">
-            <input type="text" placeholder="Search...">
-        </div>
-
-        <nav class="minto-navigation">
-
-            <a href="/" class="sidebar-link">
-                <span class="sidebar-icon">⌂</span>
-                <span>Home</span>
-            </a>
-
-            <a href="/videos" class="sidebar-link">
-                <span class="sidebar-icon">▶</span>
-                <span>Videos</span>
-            </a>
-
-            <a href="/profile" class="sidebar-link">
-                <span class="sidebar-icon">♙</span>
-                <span>Profile</span>
-            </a>
-
-        </nav>
-
-        <div class="minto-sidebar-bottom">
-
-            <a href="/login" class="signin-button">
-                <span>Sign In</span>
-            </a>
-
-            <div class="minto-copyright">
-                © 2026 Minto
+{% block content %}
+    <section class="error-page">
+        <div class="error-content">
+            <div class="error-code">
+                404
             </div>
 
+            <div class="error-line"></div>
+
+            <h1>
+                Page Not Found
+            </h1>
+
+            <p>
+                The page you're looking for doesn't exist<br>
+                or has been moved.
+            </p>
+
+            <a href="{% url 'feed' %}" class="error-button">
+                <span>←</span>
+                Back to Home
+            </a>
         </div>
-
-    </aside>
-
-
-    <!-- MAIN -->
-    <main class="minto-main">
-
-        <section class="error-page">
-
-            <div class="error-content">
-
-                <div class="error-code">
-                    404
-                </div>
-
-                <div class="error-line"></div>
-
-                <h1>
-                    Page Not Found
-                </h1>
-
-                <p>
-                    The page you're looking for doesn't exist<br>
-                    or has been moved.
-                </p>
-
-                <a href="/" class="error-button">
-                    <span>←</span>
-                    Back to Home
-                </a>
-
-            </div>
-
-        </section>
-
-    </main>
-
-</div>
-
-</body>
-</html>
-
+    </section>
+{% endblock %}
