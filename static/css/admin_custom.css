@@ -217,6 +217,16 @@ input[type="text"]:focus, select:focus, textarea:focus {
     background: #27272e !important;
 }
 
+/* Django fixes selects at 24-30px, but our padding alone takes 16px.
+   Reserve space for a full text line as well as padding and borders.
+   Keep multiple/size-based listboxes at their native widget height. */
+select:not([multiple]):not([size]),
+#changelist .actions select {
+    height: auto !important;
+    min-height: calc(1.5em + 18px);
+    line-height: 1.5;
+}
+
 /* ---------------------------------------------------------
    BUTTONS & ACTIONS (FIXED)
    --------------------------------------------------------- */
